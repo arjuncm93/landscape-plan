@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Landscape Plan</title>
+<style>
+:root{--bg:#f4f1e8;--fg:#1f2a1f;--card:#fff;--ac:#2f7d3a}
+@media (prefers-color-scheme:dark){:root{--bg:#161a16;--fg:#e8efe8;--card:#222a22;--ac:#6fcf7b}}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,sans-serif}
+header{padding:12px 16px}h1{font-size:18px;margin:0}p{margin:4px 0 0;font-size:13px;opacity:.75}
+#wrap{position:relative;max-width:1000px;margin:0 auto 24px;line-height:0}
+#wrap img#plan{width:100%;height:auto;display:block}
+.hs{position:absolute;border:1.5px solid rgba(47,125,58,.0);border-radius:4px;cursor:pointer;transition:.12s}
+.hs:hover,.hs.on{background:rgba(47,160,70,.28);border-color:var(--ac)}
+#pop{position:fixed;z-index:10;pointer-events:none;display:none;background:var(--card);border-radius:10px;box-shadow:0 8px 28px rgba(0,0,0,.35);overflow:hidden;width:280px;line-height:1.3}
+#pop img{width:100%;height:200px;object-fit:cover;display:block}
+#pop b{display:block;padding:8px 10px 0;font-size:15px}#pop i{display:block;padding:0 10px 2px;font-size:12px;opacity:.7}
+#pop span{display:block;padding:0 10px 9px;font-size:12px;opacity:.7}
+#miss{display:none;padding:30px;text-align:center;line-height:1.5}
+</style></head><body>
+<header><h1>Landscape Plan</h1><p>Hover (or tap) any handwritten label to see the plant.</p></header>
+<div id="miss">Save your plan image as <code>plan.png</code> in this folder, then reload.</div>
+<div id="wrap"><img id="plan" src="plan.png" alt="Landscape plan" onerror="this.style.display='none';miss.style.display='block'"></div>
+<div id="pop"><img alt=""><b></b><i></i><span></span></div>
+<script>
+const P={
+RX:["Rhapis excelsa","Lady palm","Rhapis_excelsa"],CO:["Costus woodsonii Maas","Scarlet spiral flag","Costus_woodsonii_Maas"],
+CA:["Calathea lutea","Cigar calathea","Calathea_lutea"],CR:["Crinum lily","Crinum asiaticum","Crinum_lilly"],
+AL:["Alpinia purpurata","Red ginger","Alpinia_purpurata"],MG:["Morning Glory (creeper)","Ipomoea","Morning_Glory"],
+XA:["Philodendron Xanadu","","Philodendron_Xanadu"],SE:["Philodendron Selloum","","Philodendron_Sellom"],
+HR:["Heliconia rostrata","Hanging lobster claw","Heliconia_rostrata"],HP:["Heliconia psittacorum","Parrot heliconia","Heliconia_psittacorum"],
+PP:["Plumeria pudica","Bridal bouquet frangipani","Plumeria_pudica"],MO:["Monstera (creeper)","Monstera deliciosa","Monstera"],
+CC:["Cat's Claw (creeper)","Dolichandra unguis-cati","Cats_Claw"],BF:["Boston fern","Nephrolepis exaltata","Boston_fern"],
+WE:["Wedelia trilobata","Creeping oxeye","Wadelia_trilobata"],BM:["Philodendron burle-marxii","","Philodendron_burle-marxii"],
+VE:["Vernonia elaeagnifolia (creeper)","","Vernonia_elaeagnifolia"],TH:["Thunbergia mysorensis (creeper)","Indian clock vine","Thunbergia_mysorensis"],
+IV:["English Ivy (creeper)","Hedera helix","Hedera_Helix"],SL:["Spider lily","Hymenocallis","Spider_lilly"],
+PL:["Peace lily","Spathiphyllum","Peace_Lilly"],LG:["Lemon grass","Cymbopogon citratus","Lemon_grass"],
+RF:["Rubber fig","Ficus elastica","Rubber_Fig"],DS:["Dwarf Schefflera","Schefflera arboricola","Schefflera_arboricola_dwarf"],
+LB:["Lathi Bamboo","","Lathi_Bamboo"],MU:["Murraya exotica","Orange jasmine","Murraya_exotica"],
+SP:["Sago palm","Cycas revoluta","Sago_Palm"],CN:["Canna indica","Indian shot","Canna_Indica"],
+BN:["Bird's nest fern","Asplenium nidus","Birds_Nest"],UN:["Philodendron undulatum","","Philodendron_Undalatum"],
+AC:["Alocasia","Alocasia macrorrhizos","Alocasia_micorriza"]};
+const IMG=JSON.parse('{"Rubber_Fig": "00_Rubber_Fig.jpg", "Zoysia_japonica": "24_Zoysia_japonica.jpg", "Morning_Glory": "31_Morning_Glory.jpg", "Monstera": "26_Monstera.jpg", "Hedera_Helix": "28_Hedera_Helix.jpg", "Vernonia_elaeagnifolia": "27_Vernonia_elaeagnifolia.jpg", "Thunbergia_mysorensis": "30_Thunbergia_mysorensis.jpg", "Cats_Claw": "29_Cats_Claw.jpg", "Lathi_Bamboo": "25_Lathi_Bamboo.jpg", "Philodendron_Sellom": "19_Philodendron_Sellom.jpg", "Alpinia_purpurata": "02_Alpinia_purpurata.jpg", "Schefflera_arboricola_dwarf": "14_Schefflera_arboricola_dwarf.jpg", "Costus_woodsonii_Maas": "05_Costus_woodsonii_Maas.jpg", "Philodendron_Undalatum": "18_Philodendron_Undalatum.jpg", "Plumeria_pudica": "12_Plumeria_pudica.jpg", "Sago_Palm": "08_Sago_Palm.jpg", "Peace_Lilly": "21_Peace_Lilly.jpg", "Alocasia_micorriza": "01_Alocasia_micorriza.jpg", "Philodendron_Xanadu": "17_Philodendron_Xanadu.jpg", "Rhapis_excelsa": "13_Rhapis_excelsa.jpg", "Spider_lilly": "16_Spider_lilly.jpg", "Boston_fern": "15_Boston_fern.jpg", "Lemon_grass": "23_Lemon_grass.jpg", "Birds_Nest": "03_Birds_Nest.jpg", "Heliconia_rostrata": "09_Heliconia_rostrata.jpg", "Wadelia_trilobata": "22_Wadelia_trilobata.jpg", "Crinum_lilly": "06_Crinum_lilly.jpg", "Heliconia_psittacorum": "10_Heliconia_psittacorum.jpg", "Canna_Indica": "07_Canna_Indica.jpg", "Murraya_exotica": "11_Murraya_exotica.jpg", "Philodendron_burle-marxii": "20_Philodendron_burle-marxii.jpg", "Calathea_lutea": "04_Calathea_lutea.jpg"}');
+// key, x, y of label centre on a 1082x1600 plan
+const L=`RX 240 115|CO 375 120|CA 445 138|CR 505 118|RX 600 113|AL 665 115|MG 595 68|RX 700 80|AL 745 62|CA 800 62|XA 860 20|HR 980 78|SE 880 98|PP 880 130|MO 990 133|CC 990 160|RX 860 170|BF 740 172|WE 540 210|BF 860 198|XA 960 208|BM 975 226|VE 1010 268|TH 1010 330|IV 1010 392|HP 620 262|XA 770 252|RX 715 272|SE 775 275|BF 880 306|XA 862 355|BF 878 400|WE 985 430|SL 985 470|RX 995 525|RF 545 318|AL 97 238|SL 97 275|CA 97 305|AL 70 400|LG 70 430|HP 90 470|PP 50 515|BF 320 507|SL 265 527|CA 95 580|PL 270 645|HP 110 658|CA 245 735|PL 545 415|XA 610 413|SL 610 433|DS 548 447|BF 605 468|BF 430 528|WE 550 510|LG 460 590|XA 365 625|RX 470 618|WE 565 635|SL 575 663|XA 565 680|XA 755 602|SL 755 672|SL 420 722|RX 360 748|AL 390 785|WE 640 775|SE 405 848|CA 430 903|RX 415 940|BF 655 937|AL 445 1003|WE 680 1030|WE 770 788|BM 765 845|PL 990 790|PL 995 930|BF 790 1080|LB 1005 1005|SL 1005 1052|BF 980 1100|AL 1020 1133|PL 990 1165|RX 968 1192|CA 975 1227|PP 1015 1255|XA 1025 1285|SL 1005 1302|XA 1010 1323|MU 975 1362|CO 1010 1385|HP 1010 1408|SP 1000 1427|AL 1015 1453|CN 975 1480|BF 975 1510|PL 980 1527|XA 975 1545|SE 970 1563|SL 940 1580|RX 730 1560|SP 800 1568|CA 752 1475|SE 748 1413|RX 838 1402|CC 445 1122|RX 455 1163|SL 470 1188|MU 470 1210|BN 465 1240|SE 425 1263|CA 460 1285|PP 455 1315|LG 470 1333|UN 470 1360|HP 475 1398|CA 470 1425|PP 475 1465|CA 472 1490|AL 483 1513|AC 572 1550|XA 610 1565|SL 680 1422|XA 665 1445|BF 693 1458|SP 700 1470|CN 690 1488|CR 695 1500|WE 690 1533|BF 600 1157|WE 715 1157|BF 725 1213|XA 720 1268|SL 630 1295|PL 710 1330|BF 690 1373`;
+const W=1082,H=1600,wrap=document.getElementById('wrap'),pop=document.getElementById('pop');
+const pi=pop.querySelector('img'),pb=pop.querySelector('b'),pit=pop.querySelector('i'),ps=pop.querySelector('span');
+const count={};L.split('|').forEach(s=>count[s.split(' ')[0]]=(count[s.split(' ')[0]]||0)+1);
+function show(k,e){const p=P[k];pi.src='images/'+IMG[p[2]];pb.textContent=p[0];pit.textContent=p[1];ps.textContent='Appears '+count[k]+' times on this plan';pop.style.display='block';move(e)}
+function move(e){let x=e.clientX+18,y=e.clientY+18;if(x+290>innerWidth)x=e.clientX-298;if(y+290>innerHeight)y=e.clientY-290;pop.style.left=x+'px';pop.style.top=y+'px'}
+L.split('|').forEach(s=>{const [k,x,y]=s.split(' '),w=96,h=30,d=document.createElement('div');d.className='hs';
+d.style.cssText=`left:${(x-w/2)/W*100}%;top:${(y-h/2)/H*100}%;width:${w/W*100}%;height:${h/H*100}%`;
+d.onmouseenter=e=>show(k,e);d.onmousemove=move;d.onmouseleave=()=>pop.style.display='none';
+d.onclick=e=>{show(k,e)};wrap.appendChild(d)});
+</script></body></html>
